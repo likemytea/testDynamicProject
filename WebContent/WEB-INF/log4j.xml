@@ -24,7 +24,7 @@
      <param name="encoding" value="UTF-8" />  <!-- 保存字符集 -->
      <param name="target" value="System.out" />  <!-- 输出到控制台 -->
      <layout class="org.apache.log4j.PatternLayout"> <!-- loyout表示输出方式，可以多种，class值区分，PatternLayout表示自定义格式 --> 
-       <param name="ConversionPattern" value="%d{yy-mm-dd:HH:mm:ss,SSS} %-5p 类目名[%c]  %l -%m%n" />  <!-- 输出格式，后面解释 -->
+       <param name="ConversionPattern" value="%d{yy-mm-dd:HH:mm:ss,SSS} %-5p 我root--[%c]  %l -%m%n" />  <!-- 输出格式，后面解释 -->
      </layout>
       <!--filter过滤器设置输出的级别:ALL < DEBUG < INFO < WARN < ERROR < FATAL < OFF
           所有下面输出的是debug到warn不会有error和fatal
@@ -34,14 +34,40 @@
             <param name="levelMax" value="warn" />  
             <param name="AcceptOnMatch" value="true" />  <!-- 答案：http://bbs.csdn.net/topics/350195913 -->
         </filter>  
-  </appender>    
+  </appender>
+  
+  
+<appender name="xxxxxxxxx" class="org.apache.log4j.DailyRollingFileAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%d{HH:mm:ss:SSS}] [%p] - %m%n"/>
+        </layout>
+        <param name="File" value="d:/log4j1.log" />
+        <param name="Append" value="true" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'" />
+
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">
+            <param name="LevelMin" value="INFO" />
+            <param name="LevelMax" value="INFO" />
+        </filter>
+</appender>
+  
+  
+  
      <!-- debug log -->  
      <!-- name指定的是包名，表示这个logger只记录com.wzw.controller下的所有日志 -->
    <logger name="com.liuxing" additivity="false">  <!-- additivity 是否继承root -->
       <appender-ref ref="console" />
    </logger>  
+   <logger name="cn.test" additivity="false">  <!-- additivity 是否继承root -->
+      <appender-ref ref="xxxxxxxxx" />
+   </logger>     
 
+   <category name="aaa" additivity="false">
+       <appender-ref ref="console" />
+       <priority value="info" />
+   </category>
    
+ 
    <!-- Root Logger -->  
    <!-- 所有logger的父类，记录所有的日志。 -->
    <root> 
